@@ -1,5 +1,5 @@
 {
-  "name": "scratch-project",
+  "name": "PitchIt",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,21 +11,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ykim770/Scratch-Project.git"
+    "url": "git+https://github.com/Pitch-It/PitchIt-Project-Management.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ykim770/Scratch-Project/issues"
+    "url": "https://github.com/Pitch-It/PitchIt-Project-Management/issues"
   },
-  "homepage": "https://github.com/ykim770/Scratch-Project#readme",
+  "homepage": "hhttps://github.com/Pitch-It/PitchIt-Project-Management#readme",
   "devDependencies": {
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "babel-loader": "^9.1.0",
     "css-loader": "^6.7.1",
+    "eslint": "^8.27.0",
     "html-webpack-plugin": "^5.5.0",
     "sass-loader": "^13.1.0",
     "style-loader": "^3.3.1",
