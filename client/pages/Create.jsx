@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../components/Checkbox.jsx';
 import '../styles/create.scss';
@@ -14,32 +14,32 @@ import '../styles/create.scss';
 */
 
 const Create = () => {
-  // this object contains all the skills and initializes their clickState to false
-  const skillsObj = {
-    React: false,
-    Express: false,
-    SQL: false,
-    Node: false,
-    MongoDB: false,
-    Javascript: false,
-    HTML: false,
-    CSS: false,
-    Python: false,
-    'C++': false,
-    Java: false,
-    PostgreSQL: false,
-    Git: false,
-    Vue: false,
-    Angular: false,
-    'C#': false,
-    Docker: false,
-    Kubernetes: false,
-    Unity: false,
-    'Unreal Engine': false,
-    'Spring Boot': false,
-  };
   // this state hook will say which filters are active
+  const [skillsObj, setSkillsObj] = useState({});
   const [skillState, setSkillState] = useState(skillsObj);
+
+  //Function that will get all skills from the server
+  function getSkills(){
+    axios.get(
+      'http://localhost:3000/projects/skills',
+    )
+      .then(response =>{
+        //Give response.data a reasonable name
+        const skills = response.data;
+        //Define skillsObj
+        const skillObj = {};
+        //Foreach loop to setup skillsObj
+        skills.forEach(skill => {skillObj[skill] = false;});
+        //Update State
+        setSkillsObj(skillObj);
+        setSkillState(skillObj);
+      });
+  }
+
+  useEffect(() => {
+    console.log('Get skills request was made');
+    getSkills();
+  }, [skillsObj.length]);
 
   const handleClick = (skill) => {
     return setSkillState((prevState) => ({
@@ -69,7 +69,9 @@ const Create = () => {
   const [duplicate, setDuplicate] = useState(false);
   const [valid, setValid] = useState(true);
   const navigate = useNavigate();
+
   const handleInputChange = (e, inputId) => {
+    console.log('skills', skillsObj);
     return setInputData((prevState) => ({
       ...prevState,
       [inputId]: e.target.value,
@@ -168,7 +170,7 @@ const Create = () => {
         <button
           id="create-button"
           type="submit"
-      >
+        >
           Pitch it!
         </button>
       </form>

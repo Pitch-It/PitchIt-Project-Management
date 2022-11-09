@@ -21,7 +21,7 @@ const MyProjects = () => {
   const getMyProjects = async () => {
     try {
       const myProjects = await axios.get(
-        `http://localhost:3000/projects/${localStorage.getItem('user_id')}`
+        `http://localhost:3000/projects/user/${localStorage.getItem('user_id')}`
       );
       setMyProjects(
         myProjects.data.map((obj) => {

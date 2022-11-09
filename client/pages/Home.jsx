@@ -12,31 +12,6 @@ import '../styles/home.scss';
 */
 
 const Home = () => {
-  // this object contains all the skills and initializes their clickState to false
-  const skillsObj = {
-    React: false,
-    Express: false,
-    SQL: false,
-    Node: false,
-    MongoDB: false,
-    Javascript: false,
-    HTML: false,
-    CSS: false,
-    Python: false,
-    'C++': false,
-    Java: false,
-    PostgreSQL: false,
-    Git: false,
-    Vue: false,
-    Angular: false,
-    'C#': false,
-    Docker: false,
-    Kubernetes: false,
-    Unity: false,
-    'Unreal Engine': false,
-    'Spring Boot': false,
-  };
-
   // this is to serve as a redundancy for filteredProjects
   // we could just throw this in a variable defined in the global scope but it's fine at this point
   const [projectArr, setProjectArr] = useState([]);
@@ -44,8 +19,28 @@ const Home = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   // this hook will conditionally render the potential filters
   const [filterPress, setFilterPress] = useState(false);
+  // this state hook will hold all skill states
+  const [skillsObj, setSkillsObj] = useState({});
   // this state hook will say which filters are active
   const [skillState, setSkillState] = useState(skillsObj);
+
+  function getSkills(){
+    axios.get(
+      'http://localhost:3000/projects/skills',
+    )
+      .then(response =>{
+        const skills = response.data;
+        const skillObj = {};
+        skills.forEach(skill => {skillObj[skill] = false;});
+        setSkillsObj(skillObj);
+        setSkillState(skillObj);
+      });
+  }
+
+  useEffect(() => {
+    console.log('Get skills request was made');
+    getSkills();
+  }, [skillsObj.length]);
 
   // this handle click fires whenever a skill is selected
   const handleClick = (skill) => {
@@ -113,7 +108,7 @@ const Home = () => {
           setFilteredProjects(arr);
         });
     } catch (err) {
-      alert("couldn't find project");
+      alert('couldn\'t find project');
     }
   };
   // On page load, run the asynchronous get request
