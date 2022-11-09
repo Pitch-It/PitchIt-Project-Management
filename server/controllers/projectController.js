@@ -152,11 +152,14 @@ projectController.deleteProject = (req, res, next) => {
   const project_id = req.params.id;
   const array = [project_id];
   const queryStr = `DELETE FROM projects WHERE projects.id = $1`;
+
   db.query(queryStr, array)
     .then(() => {
       return res.status(200).json(true);
     })
     .catch((err) => {
+      console.log(err);
+      console.log(err);
       return next({
         log: 'Error in projectController.deleteProject',
         status: 400,
