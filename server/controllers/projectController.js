@@ -108,13 +108,14 @@ projectController.getMyProject = (req, res, next) => {
 
 projectController.addProject = (req, res, next) => {
   const { owner_id, project_name, date, description, owner_name, skills } = req.body;
-  const array = [owner_id, project_name, date, description, owner_name, skills];
+  const array = [owner_id, project_name, date, description, owner_name];
   const queryStr = `INSERT INTO projects(owner_id, project_name, date, description, owner_name) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
   // send off a nested query to our database, effectively adding to the projects and join table with one user click
   db.query(queryStr, array)
     .then((data) => {
       // By using RETURNING id in conjunction with the insert into, we can store the new project's primary key in insertedId
       const insertedId = data.rows[0].id;
+      console.log(insertedId);
       // We need to construct another query string to add to our join table
       // ! We have a varying amount of rows to enter into our join table.....
       const multipleStringArr = [];
@@ -124,9 +125,8 @@ projectController.addProject = (req, res, next) => {
       }
       // create a single string, getting rid of all the backticks
       const multipleString = multipleStringArr.join(',').replaceAll('`', '');
-      const array2 = [multipleString];
-      const queryStr2 = `INSERT INTO projects_skills_join_table (project_id, skill_id) VALUES $1`;
-      db.query(queryStr2, array2)
+      const queryStr2 = `INSERT INTO projects_skills_join_table (project_id, skill_id) VALUES${multipleString}`;
+      db.query(queryStr2)
         .then(() => {
           return res.status(200).json(true);
         })
