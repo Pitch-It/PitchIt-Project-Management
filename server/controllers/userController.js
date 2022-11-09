@@ -1,9 +1,8 @@
 const db = require('../models/projectModels');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const userController = {};
-
-
-
 userController.verifyUser = (req, res, next) => {
   const { username, password } = req.body;
   const array = [username, password]
@@ -14,11 +13,18 @@ userController.verifyUser = (req, res, next) => {
       return data.rows[0];
     })
     .then((user) => {
+      console.log(user)
       // If our query returns null, just send back false to our front end
       if (!user) return res.status(400).json(false);
+      const id = user.id;
+      console.log(id)
+      const token = jwt.sign({id}, process.env.JWT_SECRET,{expiresIn:3000})
+      console.log(token)
+      console.log(user)
       return res
         .status(200)
-        .json({ user_id: user.id, username: user.username });
+        .json({auth:true, token: token, result: user});
+
     })
     .catch((err) => {
       return next({
@@ -30,6 +36,19 @@ userController.verifyUser = (req, res, next) => {
 };
 
 
+userController.verifyJWT = (req,res,next) => {
+  const token = req.headers["x-access-token"];
+  if(!token) {
+    res.send("we need a token please")
+  }
+  else {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if(err) {res.json({auth:false, message: "authentication failed"})}
+      else {req.userId = decoded.id}
+      return next()
+    })
+  }
+}
 // ! Think about what if user already exists
 userController.createUser = (req, res, next) => {
   const { username, password } = req.body;

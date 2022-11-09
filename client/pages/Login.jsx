@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // import MainContainer from './containers/MainContainer';
 import axios from 'axios';
 import Logo from '../components/Logo.jsx';
-import '../styles/logintwo.scss';
+import '../styles/LoginTwo.scss';
 // import SignUp from './SignUp.jsx';
 
 /*
@@ -18,56 +18,82 @@ import '../styles/logintwo.scss';
 
 const LoginTwo = () => {
   // This hook will change state if the user's input is invalid
-  const [valid, setValid] = useState(true);
+  // const [valid, setValid] = useState(true);
   // This hook will change our password's type to password
-  const [hide, setHide] = useState(true);
+  // const [hide, setHide] = useState(true);
+  const [username, setInputUsername] = useState('');
+  const [password, setInputPassword] = useState('');
+  const [authResponse, setAuthResponse] = useState(false);
   // Create a hook that handles input changes for either username or password
-  const initialInputState = {
-    username: '',
-    password: '',
-  };
+  // const initialInputState = {
+  //   username: '',
+  //   password: '',
+  // };
   // we want to useNavigate as a side effect of successful login
   const navigate = useNavigate();
-  const hidePW = () => setHide((prevState) => !prevState);
+  // const hidePW = () => setHide((prevState) => !prevState);
   // This hook will change state depending on the user's inputs
-  const [inputData, setInputData] = useState(initialInputState);
+  // const [inputData, setInputData] = useState(initialInputState);
   // create a handle input change function
-  const handleInputChange = (e, inputId) => {
-    return setInputData((prevState) => ({
-      ...prevState,
-      [inputId]: e.target.value,
-    }));
-  };
+  // const handleInputChange = (e, inputId) => {
+  //   return setInputData((prevState) => ({
+  //     ...prevState,
+  //     [inputId]: e.target.value,
+  //   }));
   // Clear localStorage in login
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
+  // useEffect(() => {
+  //   localStorage.clear();
+  // }, []);
   // create a handle submit function
   const handleSubmit = (event) => {
     // prevent a page referesh
     event.preventDefault();
     // do a check on the input types
-    if (!inputData.username || !inputData.password) return setValid(false);
+    if (!username || !password) return;
     // Send an asynchronous post request to our server, which should handle logging in
     (async function loginUser() {
       try {
         await axios
-          .post('http://localhost:3000/user/login', inputData)
+          .post('http://localhost:3000/user/login', 
+          {username:username, password:password}
+          )
           .then((response) => {
-            setValid(false);
-            setInputData(initialInputState);
-            return response.data;
+            console.log(response)
+            if(!response.data.auth) {
+              setAuthResponse(false)
+            }
+            else {
+              console.log(response.data)
+              localStorage.setItem("token", response.data.token)
+              setAuthResponse(true)
+              return;
+            }
+            // setValid(false);
+            // setInputData(initialInputState);
+            // return response.data;
           })
-          .then((data) => {
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('user_id', data.user_id);
-            return navigate('/home');
+          .then(() => {
+            // localStorage.setItem('username', data.username);
+            // localStorage.setItem('user_id', data.user_id);
+            // return navigate('/home');
           });
       } catch (err) {
         alert('Incorrect username or password!');
       }
     })();
   };
+
+ const checkAuthentication = () => {
+  axios.get('http://localhost:3000/user/auth', {
+    headers: {
+      "x-access-token": localStorage.getItem("token"),
+    },
+  }).then((response) => {
+    console.log(response)
+  })
+  }
+
+
   return (
     <main className="login">
       <div className="svg-top">
@@ -145,17 +171,20 @@ const LoginTwo = () => {
         </svg>
       </div>
 
-      <section class="container">
-        <section class="wrapper">
+      <section className="container">
+        <section className="wrapper">
           <header>
-            <div class="logo">
+            <div className="logo">
               <span>
                 <Logo />
               </span>
             </div>
             <h1>Pitch It</h1>
+            {authResponse && 
+      <button className = "authButton" onClick = {checkAuthentication}>Check Authentication</button>
+      }
           </header>
-          <section class="main-content">
+          <section className="main-content">
             <form
               action=""
               onSubmit={handleSubmit}
@@ -163,23 +192,23 @@ const LoginTwo = () => {
               <input
                 type="text"
                 placeholder="Username"
-                value={inputData.username}
-                onChange={(e) => handleInputChange(e, 'username')}
+                // value={inputData.username}
+                onChange={(e) => setInputUsername(e.target.value)}
               />
-              <div class="line"></div>
+              <div className="line"></div>
               <input
-                type={hidePW ? 'password' : 'text'}
+                type="password"
                 placeholder="Password"
-                value={inputData.password}
-                onChange={(e) => handleInputChange(e, 'password')}
+                // value={inputData.password}
+                onChange={(e) => setInputPassword(e.target.value)}
               />
               <button type="submit">Login</button>
               {/* Conditionally render an error message if the user input is invalid */}
-              {!valid && (
+              {/* {!valid && (
                 <span className="input-error">
                   Please enter a valid username and password
                 </span>
-              )}
+              )} */}
             </form>
           </section>
           <footer>
