@@ -62,6 +62,10 @@ html {
         justify-content: center;
         align-items: center;
       }
+      .authButton {
+
+        border:1px solid red;
+      }
       p {
         color: $brand-primary;
         font-size: 18px;

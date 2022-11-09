@@ -7,6 +7,10 @@ router.post('/login', userController.verifyUser);
 
 router.post('/signup', userController.createUser);
 
+router.get('/auth', userController.verifyJWT, (req,res) => {
+    res.send("You are authorized. Thank you!")
+})
+
 router.delete('/', userController.deleteUser);
 
 module.exports = router;

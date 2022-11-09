@@ -21,7 +21,7 @@ const MyProjects = () => {
   const getMyProjects = async () => {
     try {
       const myProjects = await axios.get(
-        `http://localhost:3000/projects/${localStorage.getItem('user_id')}`
+        `http://localhost:3000/projects/user/${localStorage.getItem('user_id')}`
       );
       setMyProjects(
         myProjects.data.map((obj) => {
@@ -35,13 +35,14 @@ const MyProjects = () => {
               skills={obj.skills}
               date={obj.date}
               handleDelete={handleDelete}
+              handleEdit={true}
             />
           );
         })
       );
       return;
     } catch (err) {
-      alert("Couldn't fetch my projects");
+      alert('Couldn\'t fetch my projects');
     }
   };
   // This is a function used to delete projects

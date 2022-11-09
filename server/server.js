@@ -6,6 +6,7 @@ const cors = require('cors');
 const userRouter = require('./routes/user');
 const projRouter = require('./routes/projects');
 const PORT = 3000;
+const jwt = require('jsonwebtoken');
 
 app.use(cors({ origin: true }));
 app.use(express.json());
