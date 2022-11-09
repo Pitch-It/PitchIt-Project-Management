@@ -36,6 +36,7 @@ const Home = () => {
     'Unreal Engine': false,
     'Spring Boot': false,
   };
+
   // this is to serve as a redundancy for filteredProjects
   // we could just throw this in a variable defined in the global scope but it's fine at this point
   const [projectArr, setProjectArr] = useState([]);
@@ -45,6 +46,7 @@ const Home = () => {
   const [filterPress, setFilterPress] = useState(false);
   // this state hook will say which filters are active
   const [skillState, setSkillState] = useState(skillsObj);
+
   // this handle click fires whenever a skill is selected
   const handleClick = (skill) => {
     // first we change the state of the selected skill
@@ -119,10 +121,11 @@ const Home = () => {
     getProjects();
     // populate user
   }, []);
+
   return (
     <div id="homepage-div">
       <div id="Home">Pitches</div>
-      {/* <div id="Home">Welcome, {localStorage.getItem('username')}</div> */}
+      <div id="Home">Welcome, {localStorage.getItem('username')}</div>
       <hr />
       <div className="homepage-button-container">
         <button
@@ -132,9 +135,6 @@ const Home = () => {
           Filter
         </button>
       </div>
-      {/* <div>
-        <span id="username"> Hello,  </span>
-      </div> */}
       {filterPress && <div className="filters">{checkboxArr}</div>}
       <div className="project-card-container">{filteredProjects}</div>
       <br></br>

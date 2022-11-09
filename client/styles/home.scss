@@ -2,17 +2,6 @@
 $brand-primary: #b6b7cb;
 $brand-light-primary: #17d7fa;
 
-// .filters {
-//   display: flex;
-//   margin-block: 10px;
-//   div {
-//     margin-inline: 10px;
-//   }
-//   button {
-//     border-radius: 8px;
-//   }
-// }
-
 #homepage-div {
   margin-left: 110px;
   width: 96.7%;
@@ -81,10 +70,18 @@ $brand-light-primary: #17d7fa;
   margin-top: 10px;
   margin-inline: 1.8%;
 }
+
 .filters {
-  display: grid;
+  display: flex;
   justify-items: center;
   justify-content: space-evenly;
   align-items: center;
   align-content: space-evenly;
+  margin-block: 10px;
+  div {
+    margin-inline: 10px;
+  }
+  button {
+    border-radius: 8px;
+  }
 }

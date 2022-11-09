@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Project from '../components/Project.jsx';
 import '../styles/myprojects.scss';
 
@@ -62,7 +62,6 @@ const MyProjects = () => {
       setRanOnce(true);
     }
   }, [myProjects]);
-  // if (myProjects.length === myProjects.length) return null;
   return (
     <div id="myprojects-div">
       <div className="myproject-header">My Pitches</div>

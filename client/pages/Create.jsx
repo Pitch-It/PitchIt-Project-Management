@@ -40,12 +40,14 @@ const Create = () => {
   };
   // this state hook will say which filters are active
   const [skillState, setSkillState] = useState(skillsObj);
+
   const handleClick = (skill) => {
     return setSkillState((prevState) => ({
       ...prevState,
       [skill]: !prevState[skill],
     }));
   };
+  
   const checkboxArr = [];
   for (const skill in skillState) {
     skillState[skill];
@@ -161,20 +163,12 @@ const Create = () => {
         </div>
         <div className="field">
           <label>Needed Skills:</label>
-          {/* <input
-            type='text'
-            id='skillsets-needed'
-            name='skillsets-needed'
-            value={inputData.skillset}
-            placeholder='Enter a description of the Teammates you would like to find!'
-            onChange={(e) => handleInputChange(e, 'skillset')}
-          /> */}
           <div className="filters">{checkboxArr}</div>
         </div>
         <button
           id="create-button"
           type="submit"
-        >
+      >
           Pitch it!
         </button>
       </form>

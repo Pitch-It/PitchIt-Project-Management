@@ -1,16 +1,12 @@
 const { Pool, client } = require('pg');
 
-// ! Need PG_URI here @Kevin
+
 const PG_URI = 'postgres://hwxpjtlo:HTj6nShkYphdciga-YnhzYTrPykaxC1-@heffalump.db.elephantsql.com/hwxpjtlo';
 
 // create a new pool here using the connection string above
 const pool = new Pool({
   connectionString: PG_URI,
 });
-
-// Adding some notes about the database here will be helpful for future you or other developers.
-// Schema for the database can be found below:
-// https://github.com/CodesmithLLC/unit-10SB-databases/blob/master/docs/assets/images/schema.png
 
 // We export an object that contains a property called query,
 // which is a function that returns the invocation of pool.query() after logging the query
