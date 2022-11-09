@@ -43,7 +43,7 @@ describe('Route Integration', () => {
         })
         // describe 'DELETE'
         describe('DELETE', () => {
-            it('responds to a delete request with a boolean value (true)', () => {
+            it('responds with 200 status to a delete request', () => {
                 return request(server)
                     .delete('/:id')
                     .expect(200);
