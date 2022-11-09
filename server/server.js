@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-// ! Uncomment lines 5 and 10 if we run into CORS issues
-// ! ran into cors issues :(
+
 const cors = require('cors');
 const userRouter = require('./routes/user');
 const projRouter = require('./routes/projects');
@@ -45,4 +44,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
+
+
 module.exports = app;

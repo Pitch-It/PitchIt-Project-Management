@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const Checkbox = ({ skill, handleClick, type }) => {
   const [toggle, setToggle] = useState(false);

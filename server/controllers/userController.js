@@ -1,23 +1,13 @@
 const db = require('../models/projectModels');
-
 const userController = {};
 
-// userController.getAllUsers = (req, res, next) => {
-//   try {
-//     const queryStr = `SELECT * FROM users`;
-//     db.query(queryStr).then((data) => {
-//       console.log(data);
-//       return res.status(200);
-//     });
-//   } catch (err) {
-//     return next({});
-//   }
-// };
+
 
 userController.verifyUser = (req, res, next) => {
   const { username, password } = req.body;
-  const queryStr = `SELECT users.id, users.username FROM users WHERE users.username='${username}' AND users.password='${password}'`;
-  db.query(queryStr)
+  const array = [username, password]
+  const queryStr = `SELECT users.id, users.username FROM users WHERE users.username=$1 AND users.password=$2`;
+  db.query(queryStr, array)
     .then((data) => {
       console.log(data.rows[0]);
       return data.rows[0];
@@ -38,11 +28,13 @@ userController.verifyUser = (req, res, next) => {
     });
 };
 
+
 // ! Think about what if user already exists
 userController.createUser = (req, res, next) => {
   const { username, password } = req.body;
-  const queryStr = `INSERT INTO users(username,password) VALUES ('${username}', '${password}')`;
-  db.query(queryStr)
+  const array = [username, password]
+  const queryStr = `INSERT INTO users(username,password) VALUES ($1, $2)`;
+  db.query(queryStr, array)
     .then(() => {
       return res.status(200).json(true);
     })
@@ -55,10 +47,12 @@ userController.createUser = (req, res, next) => {
     });
 };
 
+
 userController.deleteUser = (req, res, next) => {
   const { user_id } = req.body;
-  const queryStr = `DELETE FROM users WHERE users.id = '${user_id}'`;
-  db.query(queryStr)
+  const array = [user_id]
+  const queryStr = `DELETE FROM users WHERE users.id = $1`;
+  db.query(queryStr, array)
     .then(() => {
       return res.status(200).json(true);
     })
@@ -70,5 +64,6 @@ userController.deleteUser = (req, res, next) => {
       });
     });
 };
+
 
 module.exports = userController;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import Fade from 'react-reveal/Fade';
+
+//Interesting question where is this used unsure of functionality? Kelvin
 
 const Error = () => {
   return (

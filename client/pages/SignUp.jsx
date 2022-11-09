@@ -1,10 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import MainContainer from './containers/MainContainer';
 import axios from 'axios';
 import Logo from '../components/Logo.jsx';
 import '../styles/signup.scss'
+
 const SignUp = () => {
   // We want multiple hooks here
   // This hook will change state if the user's input is invalid
@@ -169,13 +169,7 @@ const SignUp = () => {
               )}
             </form>
           </section>
-          <footer>
-            <p
-                href=""
-              >
-              <br/>
-            </p>
-          </footer>
+          
         </section>
       </section>
     </body>      
