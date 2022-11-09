@@ -75,7 +75,7 @@ const LoginTwo = () => {
           .then(() => {
             // localStorage.setItem('username', data.username);
             // localStorage.setItem('user_id', data.user_id);
-            // return navigate('/home');
+            return navigate('/home');
           });
       } catch (err) {
         alert('Incorrect username or password!');
