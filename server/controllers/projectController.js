@@ -11,7 +11,7 @@ const defaultErr = {
 
 // retrieves all projects
 projectController.getAllProjects = (req, res, next) => {
-  const queryStr = `SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN projects pr ON jt.project_id = pr.id JOIN skills s ON jt.skill_id = s.id`;
+  const queryStr = 'SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN projects pr ON jt.project_id = pr.id JOIN skills s ON jt.skill_id = s.id';
   db.query(queryStr)
     .then((data) => {
       return data.rows;
@@ -60,7 +60,7 @@ projectController.getMyProject = (req, res, next) => {
   const user_id = req.params.id;
   // ! For some reason, the project MUST be the second select or else the skill ID will be returned
   const array = [user_id];
-  const queryStr = `SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN skills s ON jt.skill_id = s.id JOIN projects pr ON jt.project_id = pr.id WHERE pr.owner_id=$1`;
+  const queryStr = 'SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN skills s ON jt.skill_id = s.id JOIN projects pr ON jt.project_id = pr.id WHERE pr.owner_id=$1';
   db.query(queryStr, array)
     .then((data) => {
       return data.rows;
@@ -109,7 +109,7 @@ projectController.getMyProject = (req, res, next) => {
 projectController.addProject = (req, res, next) => {
   const { owner_id, project_name, date, description, owner_name, skills } = req.body;
   const array = [owner_id, project_name, date, description, owner_name];
-  const queryStr = `INSERT INTO projects(owner_id, project_name, date, description, owner_name) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
+  const queryStr = 'INSERT INTO projects(owner_id, project_name, date, description, owner_name) VALUES ($1, $2, $3, $4, $5) RETURNING id';
   // send off a nested query to our database, effectively adding to the projects and join table with one user click
   db.query(queryStr, array)
     .then((data) => {
@@ -151,14 +151,13 @@ projectController.addProject = (req, res, next) => {
 projectController.deleteProject = (req, res, next) => {
   const project_id = req.params.id;
   const array = [project_id];
-  const queryStr = `DELETE FROM projects WHERE projects.id = $1`;
+  const queryStr = 'DELETE FROM projects WHERE projects.id = $1';
 
   db.query(queryStr, array)
     .then(() => {
       return res.status(200).json(true);
     })
     .catch((err) => {
-      console.log(err);
       console.log(err);
       return next({
         log: 'Error in projectController.deleteProject',
@@ -168,5 +167,26 @@ projectController.deleteProject = (req, res, next) => {
     });
 };
 
+
+
+//New CRUD METHODS
+projectController.getSkills = (req, res, next) => {
+  const queryStr = 'SELECT skill from skills;';
+
+  db.query(queryStr)
+    .then(data => {
+      const skills = data.rows.map(element => element.skill);
+      return res.status(200).json(skills);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+
+
+};
 
 module.exports = projectController;

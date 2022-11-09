@@ -7,8 +7,10 @@ router.post('/', projectController.addProject);
 
 router.get('/all', projectController.getAllProjects);
 
-router.get('/:id', projectController.getMyProject);
+router.get('/user/:id', projectController.getMyProject);
 
 router.delete('/:id', projectController.deleteProject);
+
+router.get('/skills', projectController.getSkills);
 
 module.exports = router;
