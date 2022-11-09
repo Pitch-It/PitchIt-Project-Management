@@ -24,14 +24,19 @@ const Home = () => {
   // this state hook will say which filters are active
   const [skillState, setSkillState] = useState(skillsObj);
 
+  //Function that will get all skills from the server
   function getSkills(){
     axios.get(
       'http://localhost:3000/projects/skills',
     )
       .then(response =>{
+        //Give response.data a reasonable name
         const skills = response.data;
+        //Define skillsObj
         const skillObj = {};
+        //Foreach loop to setup skillsObj
         skills.forEach(skill => {skillObj[skill] = false;});
+        //Update State
         setSkillsObj(skillObj);
         setSkillState(skillObj);
       });

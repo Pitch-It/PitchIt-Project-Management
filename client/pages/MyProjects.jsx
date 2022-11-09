@@ -35,13 +35,14 @@ const MyProjects = () => {
               skills={obj.skills}
               date={obj.date}
               handleDelete={handleDelete}
+              handleEdit={true}
             />
           );
         })
       );
       return;
     } catch (err) {
-      alert("Couldn't fetch my projects");
+      alert('Couldn\'t fetch my projects');
     }
   };
   // This is a function used to delete projects
