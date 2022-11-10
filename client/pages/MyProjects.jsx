@@ -45,6 +45,7 @@ const MyProjects = () => {
       alert('Couldn\'t fetch my projects');
     }
   };
+  
   // This is a function used to delete projects
   const handleDelete = async (project_id) => {
     // setRanOnce here so that useEffect fires
@@ -57,6 +58,7 @@ const MyProjects = () => {
       return prevState.filter((obj) => obj.project_id !== project_id);
     });
   };
+
   useEffect(() => {
     if (!ranOnce) {
       getMyProjects();

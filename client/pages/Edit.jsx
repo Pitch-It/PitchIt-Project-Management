@@ -1,10 +1,21 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Checkbox from '../components/Checkbox.jsx';
 import '../styles/create.scss';
 
+/*
+  Create button needs:
+  onClick reroute, OR modal popup
+  Project name -> submit field
+  Description -> submit field
+  Skills needed -> prepopulated skills
+  Time stamp -> Date.now
+*/
+
 const Edit = () => {
+  const {project_id, title, description, skills} = useLocation().state;
+
   // this state hook will say which filters are active
   const [skillsObj, setSkillsObj] = useState({});
   const [skillState, setSkillState] = useState(skillsObj);
@@ -16,11 +27,16 @@ const Edit = () => {
     )
       .then(response =>{
         //Give response.data a reasonable name
-        const skills = response.data;
+        const obtainedSkills = response.data;
         //Define skillsObj
         const skillObj = {};
         //Foreach loop to setup skillsObj
-        skills.forEach(skill => {skillObj[skill] = false;});
+        obtainedSkills.forEach(skill => {
+          if(skills.includes(skill))
+            skillObj[skill] = true;
+          else
+            skillObj[skill] = false;
+        });
         //Update State
         setSkillsObj(skillObj);
         setSkillState(skillObj);
@@ -33,6 +49,7 @@ const Edit = () => {
   }, [skillsObj.length]);
 
   const handleClick = (skill) => {
+    console.log('Skill: ', skill);
     return setSkillState((prevState) => ({
       ...prevState,
       [skill]: !prevState[skill],
@@ -53,8 +70,8 @@ const Edit = () => {
     );
   }
   const defaultInput = {
-    project_name: '',
-    description: '',
+    project_name: title,
+    description: description,
   };
   const [inputData, setInputData] = useState(defaultInput);
   const [duplicate, setDuplicate] = useState(false);
@@ -68,20 +85,25 @@ const Edit = () => {
       [inputId]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Populate inputData with required fields
     const filteredSkills = [];
+
     // We are going to push the index of the truthy skills into an array, which we will send in a request to our backend
     for (const skill in skillState) {
       // If we read a truthy value in our skillState object
-      if (skillState[skill])
-        // push the index to the filteredSkills array
-        // SQL indicies start at 1 so we should add 1 to each value
-        filteredSkills.push(Object.keys(skillsObj).indexOf(skill) + 1);
+      if (skillState[skill]){
+        //Send a get request which will fetch the ID the skill is assigned and push that into filtered skills
+        await axios.get(
+          `http://localhost:3000/projects/skill/${skill}`)
+          .then(response =>{
+            //Push the ID into filtered skills
+            filteredSkills.push(response.data.id);
+          });
+      }
     }
-    const date = new Date();
-    inputData.date = date.toDateString();
     inputData.owner_id = localStorage.getItem('user_id');
     inputData.owner_name = localStorage.getItem('username');
     inputData.skills = filteredSkills;
@@ -94,8 +116,8 @@ const Edit = () => {
     // Send an asynchronous post request to our server
     (async function postProject() {
       try {
-        const postProjectStatus = await axios.post(
-          'http://localhost:3000/projects/',
+        const postProjectStatus = await axios.patch(
+          `http://localhost:3000/projects/individual/${project_id}`,
           inputData
         );
         if (postProjectStatus) {
@@ -110,6 +132,7 @@ const Edit = () => {
       }
     })();
   };
+
   return (
     <div className="project-card-layout">
       <form

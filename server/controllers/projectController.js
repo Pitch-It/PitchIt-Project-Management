@@ -207,4 +207,27 @@ projectController.getIndividualSkill = (req, res, next) => {
     });
 };
 
+projectController.updateIndividualProject = (req, res, next) => {
+  const id = req.params.id;
+  const {project_name, description} = req.body;
+  const queryParams = [project_name, description, id];
+  const queryStr = `
+    UPDATE projects
+    SET project_name = $1, description = $2
+    WHERE id = $3;
+  `;
+
+  db.query(queryStr, queryParams)
+    .then(data => {
+      return res.status(200).json(data.rows[0]);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
 module.exports = projectController;
