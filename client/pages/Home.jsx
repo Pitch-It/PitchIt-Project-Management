@@ -75,6 +75,7 @@ const Home = () => {
       return updatedSkills;
     });
   };
+
   const checkboxArr = [];
   for (const skill in skillState) {
     skillState[skill];
@@ -87,6 +88,7 @@ const Home = () => {
       />
     );
   }
+  
   // Send a get request to the server on page load to pull in all projects in our DB
   const getProjects = async () => {
     try {
@@ -116,6 +118,7 @@ const Home = () => {
       alert('couldn\'t find project');
     }
   };
+
   // On page load, run the asynchronous get request
   useEffect(() => {
     getProjects();

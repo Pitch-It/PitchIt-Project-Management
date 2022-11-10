@@ -53,7 +53,7 @@ const Project = ({
         <button
           className="edit-button"
           onClick={() => {
-            handleDelete(project_id);
+            handleEdit(project_id);
           }}
         >
           Edit

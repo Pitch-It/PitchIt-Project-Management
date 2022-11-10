@@ -5,6 +5,7 @@ const Checkbox = ({ skill, handleClick, type }) => {
   const handleToggle = () => {
     setToggle(!toggle);
   };
+  
   return (
     <div>
       <button
