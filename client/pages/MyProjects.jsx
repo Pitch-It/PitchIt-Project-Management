@@ -17,6 +17,7 @@ const MyProjects = () => {
   // this is used to populate my projects
   const [myProjects, setMyProjects] = useState([]);
   const [ranOnce, setRanOnce] = useState(false);
+
   // Send a get request to the server on page load to pull in all my projects
   const getMyProjects = async () => {
     try {
@@ -45,6 +46,7 @@ const MyProjects = () => {
       alert('Couldn\'t fetch my projects');
     }
   };
+
   // This is a function used to delete projects
   const handleDelete = async (project_id) => {
     // setRanOnce here so that useEffect fires
@@ -57,12 +59,27 @@ const MyProjects = () => {
       return prevState.filter((obj) => obj.project_id !== project_id);
     });
   };
+
+  // This is a function used to delete projects
+  const handleEdit = async (project_id) => {
+    // setRanOnce here so that useEffect fires
+    setRanOnce(false);
+    const deleteProject = await axios.delete(
+      `http://localhost:3000/projects/${project_id}`
+    );
+    setMyProjects((prevState) => {
+      console.log(prevState);
+      return prevState.filter((obj) => obj.project_id !== project_id);
+    });
+  };
+
   useEffect(() => {
     if (!ranOnce) {
       getMyProjects();
       setRanOnce(true);
     }
   }, [myProjects]);
+
   return (
     <div id="myprojects-div">
       <div className="myproject-header">My Pitches</div>
