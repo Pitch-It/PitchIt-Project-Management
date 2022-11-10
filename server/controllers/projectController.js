@@ -179,6 +179,7 @@ projectController.getSkills = (req, res, next) => {
     .then(data => {
       //Map all the skills into an array to return to the frontend
       const skills = data.rows.map(element => element.skill);
+      //Return the skills array
       return res.status(200).json(skills);
     })
     .catch(err => {
