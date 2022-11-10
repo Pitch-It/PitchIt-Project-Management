@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../components/Logo.jsx';
-import '../styles/signup.scss'
+import '../styles/signup.scss';
 
 const SignUp = () => {
   // We want multiple hooks here
@@ -15,8 +15,8 @@ const SignUp = () => {
   //   username: '',
   //   password: '',
   // };
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [valid, setValid] = useState(true);
   // we want to useNavigate as a side effect of successful login
   const navigate = useNavigate();
@@ -44,20 +44,20 @@ const SignUp = () => {
       try {
         await axios
           .post('http://localhost:3000/user/signup', 
-          {username:username, password:password})
+            {username:username, password:password})
           .then((response) => {
             // setInputData(initialInputState);
-            console.log("response.data", response.data);
-            console.log("response", response)
+            console.log('response.data', response.data);
+            console.log('response', response);
             return navigate('/');
-          })
-          // .then((response) => {
-          //   console.log("signupdata", response)
-          //   // pass the specific user's username and user_id to the /home page
-          //   // return navigate('/');
-          // });
+          });
+        // .then((response) => {
+        //   console.log("signupdata", response)
+        //   // pass the specific user's username and user_id to the /home page
+        //   // return navigate('/');
+        // });
       } catch (err) {
-        setValid(false)
+        setValid(false);
         console.log('Broke in logging in');
       }
     })();
@@ -139,17 +139,17 @@ const SignUp = () => {
         </svg>
       </div>
 
-      <section class="container">
-        <section class="wrapper">
+      <section className="container">
+        <section className="wrapper">
           <header>
-            <div class="logo">
+            <div className="logo">
               <span>
                 <Logo />
               </span>
             </div>
             <h1>Pitch It</h1>
           </header>
-          <section class="main-content">
+          <section className="main-content">
             <form
               action=""
               onSubmit={handleSubmit}
@@ -160,7 +160,7 @@ const SignUp = () => {
                 // value={inputData.username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <div class="line"></div>
+              <div className="line"></div>
               <input
                 type="text"
                 placeholder="Password"

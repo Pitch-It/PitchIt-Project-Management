@@ -55,17 +55,18 @@ const LoginTwo = () => {
       try {
         await axios
           .post('http://localhost:3000/user/login', 
-          {username:username, password:password}
+            {username:username, password:password}
           )
           .then((response) => {
-            console.log(response)
+            localStorage.setItem('username', username);
+            localStorage.setItem('user_id', response.data.id);
             if(!response.data.auth) {
-              setAuthResponse(false)
+              setAuthResponse(false);
             }
             else {
-              console.log(response.data)
-              localStorage.setItem("token", response.data.token)
-              setAuthResponse(true)
+              console.log(response.data);
+              localStorage.setItem('token', response.data.token);
+              setAuthResponse(true);
               return;
             }
             // setValid(false);
@@ -73,8 +74,6 @@ const LoginTwo = () => {
             // return response.data;
           })
           .then(() => {
-            // localStorage.setItem('username', data.username);
-            // localStorage.setItem('user_id', data.user_id);
             return navigate('/home');
           });
       } catch (err) {
@@ -83,15 +82,15 @@ const LoginTwo = () => {
     })();
   };
 
- const checkAuthentication = () => {
-  axios.get('http://localhost:3000/user/auth', {
-    headers: {
-      "x-access-token": localStorage.getItem("token"),
-    },
-  }).then((response) => {
-    console.log(response)
-  })
-  }
+  const checkAuthentication = () => {
+    axios.get('http://localhost:3000/user/auth', {
+      headers: {
+        'x-access-token': localStorage.getItem('token'),
+      },
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
 
   return (
@@ -182,7 +181,7 @@ const LoginTwo = () => {
             <h1>Pitch It</h1>
             {authResponse && 
       <button className = "authButton" onClick = {checkAuthentication}>Check Authentication</button>
-      }
+            }
           </header>
           <section className="main-content">
             <form
