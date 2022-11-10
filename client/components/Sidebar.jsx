@@ -31,10 +31,10 @@ const Sidebar = () => {
           </li>
           <li>
             <Link
-              to={'/Favorites'}
+              to={'/Skills'}
               className="navbuttons"
             >
-              Favorites
+              Skills
             </Link>
           </li>
           {}

@@ -207,6 +207,42 @@ projectController.getIndividualSkill = (req, res, next) => {
     });
 };
 
+projectController.addNewSkill = (req, res, next) => {
+  const { skill } = req.body;
+
+  const queryStr = 'INSERT INTO skills(skill) VALUES($1) RETURNING skill';
+  
+  db.query(queryStr, [skill])
+    .then(data => {
+      return res.status(200).json(data.rows[0]);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
+projectController.removeSkill = (req, res, next) => {
+  const skill = req.params.name;
+  
+  const queryStr = 'DELETE FROM skills WHERE skill = $1';
+
+  db.query(queryStr, [skill])
+    .then(data => {
+      return res.status(200).json(data.rows[0]);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
 projectController.updateIndividualProject = (req, res, next) => {
   const id = req.params.id;
   const {project_name, description, skills} = req.body;
