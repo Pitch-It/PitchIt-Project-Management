@@ -4,16 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Checkbox from '../components/Checkbox.jsx';
 import '../styles/create.scss';
 
-/*
-  Create button needs:
-  onClick reroute, OR modal popup
-  Project name -> submit field
-  Description -> submit field
-  Skills needed -> prepopulated skills
-  Time stamp -> Date.now
-*/
-
-const Create = () => {
+const Edit = () => {
   // this state hook will say which filters are active
   const [skillsObj, setSkillsObj] = useState({});
   const [skillState, setSkillState] = useState(skillsObj);
@@ -42,7 +33,6 @@ const Create = () => {
   }, [skillsObj.length]);
 
   const handleClick = (skill) => {
-    console.log('Skill: ', skill);
     return setSkillState((prevState) => ({
       ...prevState,
       [skill]: !prevState[skill],
@@ -78,25 +68,18 @@ const Create = () => {
       [inputId]: e.target.value,
     }));
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // Populate inputData with required fields
     const filteredSkills = [];
-
     // We are going to push the index of the truthy skills into an array, which we will send in a request to our backend
     for (const skill in skillState) {
       // If we read a truthy value in our skillState object
-      if (skillState[skill]){
-        //Send a get request which will fetch the ID the skill is assigned and push that into filtered skills
-        await axios.get(
-          `http://localhost:3000/projects/skill/${skill}`)
-          .then(response =>{
-            //Push the ID into filtered skills
-            filteredSkills.push(response.data.id);
-          });
-      }
+      if (skillState[skill])
+        // push the index to the filteredSkills array
+        // SQL indicies start at 1 so we should add 1 to each value
+        filteredSkills.push(Object.keys(skillsObj).indexOf(skill) + 1);
     }
-
     const date = new Date();
     inputData.date = date.toDateString();
     inputData.owner_id = localStorage.getItem('user_id');
@@ -186,4 +169,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Edit;

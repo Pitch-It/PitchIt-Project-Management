@@ -12,30 +12,6 @@ import '../styles/home.scss';
 */
 
 const Home = () => {
-  // this object contains all the skills and initializes their clickState to false
-  const skillsObj = {
-    React: false,
-    Express: false,
-    SQL: false,
-    Node: false,
-    MongoDB: false,
-    Javascript: false,
-    HTML: false,
-    CSS: false,
-    Python: false,
-    'C++': false,
-    Java: false,
-    PostgreSQL: false,
-    Git: false,
-    Vue: false,
-    Angular: false,
-    'C#': false,
-    Docker: false,
-    Kubernetes: false,
-    Unity: false,
-    'Unreal Engine': false,
-    'Spring Boot': false,
-  };
   // this is to serve as a redundancy for filteredProjects
   // we could just throw this in a variable defined in the global scope but it's fine at this point
   const [projectArr, setProjectArr] = useState([]);
@@ -43,8 +19,34 @@ const Home = () => {
   const [filteredProjects, setFilteredProjects] = useState([]);
   // this hook will conditionally render the potential filters
   const [filterPress, setFilterPress] = useState(false);
+  // this state hook will hold all skill states
+  const [skillsObj, setSkillsObj] = useState({});
   // this state hook will say which filters are active
   const [skillState, setSkillState] = useState(skillsObj);
+
+  //Function that will get all skills from the server
+  function getSkills(){
+    axios.get(
+      'http://localhost:3000/projects/skills',
+    )
+      .then(response =>{
+        //Give response.data a reasonable name
+        const skills = response.data;
+        //Define skillsObj
+        const skillObj = {};
+        //Foreach loop to setup skillsObj
+        skills.forEach(skill => {skillObj[skill] = false;});
+        //Update State
+        setSkillsObj(skillObj);
+        setSkillState(skillObj);
+      });
+  }
+
+  useEffect(() => {
+    console.log('Get skills request was made');
+    getSkills();
+  }, [skillsObj.length]);
+
   // this handle click fires whenever a skill is selected
   const handleClick = (skill) => {
     // first we change the state of the selected skill
@@ -73,6 +75,7 @@ const Home = () => {
       return updatedSkills;
     });
   };
+
   const checkboxArr = [];
   for (const skill in skillState) {
     skillState[skill];
@@ -85,6 +88,7 @@ const Home = () => {
       />
     );
   }
+  
   // Send a get request to the server on page load to pull in all projects in our DB
   const getProjects = async () => {
     try {
@@ -111,18 +115,20 @@ const Home = () => {
           setFilteredProjects(arr);
         });
     } catch (err) {
-      alert("couldn't find project");
+      alert('couldn\'t find project');
     }
   };
+
   // On page load, run the asynchronous get request
   useEffect(() => {
     getProjects();
     // populate user
   }, []);
+
   return (
     <div id="homepage-div">
       <div id="Home">Pitches</div>
-      {/* <div id="Home">Welcome, {localStorage.getItem('username')}</div> */}
+      <div id="Home">Welcome, {localStorage.getItem('username')}</div>
       <hr />
       <div className="homepage-button-container">
         <button
@@ -132,9 +138,6 @@ const Home = () => {
           Filter
         </button>
       </div>
-      {/* <div>
-        <span id="username"> Hello,  </span>
-      </div> */}
       {filterPress && <div className="filters">{checkboxArr}</div>}
       <div className="project-card-container">{filteredProjects}</div>
       <br></br>

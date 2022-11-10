@@ -12,6 +12,7 @@ const Project = ({
   skills,
   date,
   handleDelete,
+  handleEdit,
 }) => {
   return (
     <div
@@ -46,6 +47,16 @@ const Project = ({
           }}
         >
           X
+        </button>
+      )}
+      {handleEdit && (
+        <button
+          className="edit-button"
+          onClick={() => {
+            handleEdit(project_id);
+          }}
+        >
+          Edit
         </button>
       )}
     </div>

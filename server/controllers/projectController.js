@@ -1,7 +1,7 @@
 const db = require('../models/projectModels');
 const { json } = require('express');
-
 const projectController = {};
+
 
 const defaultErr = {
   log: 'Express error handler caught unknown middleware error',
@@ -11,10 +11,7 @@ const defaultErr = {
 
 // retrieves all projects
 projectController.getAllProjects = (req, res, next) => {
-  // Original Query Str
-  // const queryStr = `SELECT * FROM projects`;
-  // Join table Query Str
-  const queryStr = `SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN projects pr ON jt.project_id = pr.id JOIN skills s ON jt.skill_id = s.id`;
+  const queryStr = 'SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN projects pr ON jt.project_id = pr.id JOIN skills s ON jt.skill_id = s.id';
   db.query(queryStr)
     .then((data) => {
       return data.rows;
@@ -58,13 +55,15 @@ projectController.getAllProjects = (req, res, next) => {
       });
     });
 };
-
 //get individual users projects
 projectController.getMyProject = (req, res, next) => {
   const user_id = req.params.id;
   // ! For some reason, the project MUST be the second select or else the skill ID will be returned
-  const queryStr = `SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN skills s ON jt.skill_id = s.id JOIN projects pr ON jt.project_id = pr.id WHERE pr.owner_id='${user_id}'`;
-  db.query(queryStr)
+  const array = [user_id];
+
+  console.log(array);
+  const queryStr = 'SELECT s.*, pr.* FROM projects_skills_join_table jt JOIN skills s ON jt.skill_id = s.id JOIN projects pr ON jt.project_id = pr.id WHERE pr.owner_id=$1';
+  db.query(queryStr, array)
     .then((data) => {
       return data.rows;
     })
@@ -108,41 +107,17 @@ projectController.getMyProject = (req, res, next) => {
     });
 };
 
-// ! WTF?
-projectController.getProject = (req, res, next) => {
-  const { project } = req.body;
-  const queryStr = ``;
-  db.query(queryStr)
-    .then((data) => {
-      console.log(data.rows[0]);
-      return data.rows[0];
-    })
-    .then((user) => {
-      // If our query returns null, just send back false to our front end
-      if (!user) return res.status(400).json(false);
-      return res
-        .status(200)
-        .json({ user_id: user.id, username: user.username });
-    })
-    .catch((err) => {
-      return next({
-        log: 'Error in projectController.getProject',
-        status: 400,
-        message: { err: err },
-      });
-    });
-};
 
 projectController.addProject = (req, res, next) => {
-  const { owner_id, project_name, date, description, owner_name, skills } =
-    req.body;
-  console.log(req.body.skills);
-  const queryStr = `INSERT INTO projects(owner_id, project_name, date, description, owner_name) VALUES ('${owner_id}','${project_name}','${date}','${description}','${owner_name}') RETURNING id`;
+  const { owner_id, project_name, date, description, owner_name, skills } = req.body;
+  const array = [owner_id, project_name, date, description, owner_name];
+  const queryStr = 'INSERT INTO projects(owner_id, project_name, date, description, owner_name) VALUES ($1, $2, $3, $4, $5) RETURNING id';
   // send off a nested query to our database, effectively adding to the projects and join table with one user click
-  db.query(queryStr)
+  db.query(queryStr, array)
     .then((data) => {
       // By using RETURNING id in conjunction with the insert into, we can store the new project's primary key in insertedId
       const insertedId = data.rows[0].id;
+      console.log(insertedId);
       // We need to construct another query string to add to our join table
       // ! We have a varying amount of rows to enter into our join table.....
       const multipleStringArr = [];
@@ -174,16 +149,58 @@ projectController.addProject = (req, res, next) => {
     });
 };
 
+
 projectController.deleteProject = (req, res, next) => {
   const project_id = req.params.id;
-  const queryStr = `DELETE FROM projects WHERE projects.id = '${project_id}'`;
-  db.query(queryStr)
+  const array = [project_id];
+  const queryStr = 'DELETE FROM projects WHERE projects.id = $1';
+
+  db.query(queryStr, array)
     .then(() => {
       return res.status(200).json(true);
     })
     .catch((err) => {
+      console.log(err);
       return next({
         log: 'Error in projectController.deleteProject',
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
+
+
+//New CRUD METHODS
+projectController.getSkills = (req, res, next) => {
+  const queryStr = 'SELECT skill from skills;';
+
+  db.query(queryStr)
+    .then(data => {
+      const skills = data.rows.map(element => element.skill);
+      return res.status(200).json(skills);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
+projectController.getIndividualSkill = (req, res, next) => {
+  const skill = req.params.name;
+  const queryStr = 'SELECT * from skills WHERE skill = $1;';
+
+  console.log('SKILL: ', skill);
+  db.query(queryStr, [skill])
+    .then(data => {
+      return res.status(200).json(data.rows[0]);
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.getSkills: ${err.detail}`,
         status: 400,
         message: { err: err },
       });

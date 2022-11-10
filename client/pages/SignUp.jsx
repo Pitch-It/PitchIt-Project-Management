@@ -1,56 +1,63 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import MainContainer from './containers/MainContainer';
 import axios from 'axios';
 import Logo from '../components/Logo.jsx';
-import '../styles/signup.scss'
+import '../styles/signup.scss';
+
 const SignUp = () => {
   // We want multiple hooks here
   // This hook will change state if the user's input is invalid
-  const [valid, setValid] = useState(true);
   // This hook will change our password's type to password
-  const [hide, setHide] = useState(true);
+  // const [hide, setHide] = useState(true);
   // Create a hook that handles input changes for either username or password
-  const initialInputState = {
-    username: '',
-    password: '',
-  };
+  // const initialInputState = {
+  //   username: '',
+  //   password: '',
+  // };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [valid, setValid] = useState(true);
   // we want to useNavigate as a side effect of successful login
   const navigate = useNavigate();
-  const hidePW = () => setHide((prevState) => !prevState);
+  // const hidePW = () => setHide((prevState) => !prevState);
   // This hook will change state depending on the user's inputs
-  const [inputData, setInputData] = useState(initialInputState);
+  // const [inputData, setInputData] = useState(initialInputState);
   // create a handle input change function
-  const handleInputChange = (e, inputId) => {
-    return setInputData((prevState) => ({
-      ...prevState,
-      [inputId]: e.target.value,
-    }));
-  };
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
+  // const handleInputChange = (e, inputId) => {
+  //   return setInputData((prevState) => ({
+  //     ...prevState,
+  //     [inputId]: e.target.value,
+  //   }));
+  // };
+  // useEffect(() => {
+  //   localStorage.clear();
+  // }, []);
   // create a handle submit function
   const handleSubmit = (event) => {
     // prevent a page referesh
     event.preventDefault();
     // do a check on the input types
-    if (!inputData.username || !inputData.password) return setValid(false);
+    if (!username || !password) return setValid(false);
     // Send an asynchronous post request to our server, which should handle logging in
     (async function loginUser() {
       try {
         await axios
-          .post('http://localhost:3000/user/signup', inputData)
+          .post('http://localhost:3000/user/signup', 
+            {username:username, password:password})
           .then((response) => {
-            setInputData(initialInputState);
-            console.log(response.data);
-          })
-          .then((data) => {
-            // pass the specific user's username and user_id to the /home page
+            // setInputData(initialInputState);
+            console.log('response.data', response.data);
+            console.log('response', response);
             return navigate('/');
           });
+        // .then((response) => {
+        //   console.log("signupdata", response)
+        //   // pass the specific user's username and user_id to the /home page
+        //   // return navigate('/');
+        // });
       } catch (err) {
+        setValid(false);
         console.log('Broke in logging in');
       }
     })();
@@ -132,17 +139,17 @@ const SignUp = () => {
         </svg>
       </div>
 
-      <section class="container">
-        <section class="wrapper">
+      <section className="container">
+        <section className="wrapper">
           <header>
-            <div class="logo">
+            <div className="logo">
               <span>
                 <Logo />
               </span>
             </div>
             <h1>Pitch It</h1>
           </header>
-          <section class="main-content">
+          <section className="main-content">
             <form
               action=""
               onSubmit={handleSubmit}
@@ -150,15 +157,15 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="Username"
-                value={inputData.username}
-                onChange={(e) => handleInputChange(e, 'username')}
+                // value={inputData.username}
+                onChange={(e) => setUsername(e.target.value)}
               />
-              <div class="line"></div>
+              <div className="line"></div>
               <input
-                type={hidePW ? 'password' : 'text'}
+                type="text"
                 placeholder="Password"
-                value={inputData.password}
-                onChange={(e) => handleInputChange(e, 'password')}
+                // value={inputData.password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button type="submit">Sign Up</button>
               {/* Conditionally render an error message if the user input is invalid */}
@@ -169,13 +176,7 @@ const SignUp = () => {
               )}
             </form>
           </section>
-          <footer>
-            <p
-                href=""
-              >
-              <br/>
-            </p>
-          </footer>
+          
         </section>
       </section>
     </body>      
