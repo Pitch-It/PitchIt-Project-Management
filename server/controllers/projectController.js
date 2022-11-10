@@ -207,4 +207,65 @@ projectController.getIndividualSkill = (req, res, next) => {
     });
 };
 
+projectController.updateIndividualProject = (req, res, next) => {
+  const id = req.params.id;
+  const {project_name, description, skills} = req.body;
+  
+  const updateBasicInfoParams = [project_name, description, id];
+  const updatebasicInfoQueryStr = `
+    UPDATE projects
+    SET project_name = $1, description = $2
+    WHERE id = $3;
+  `;
+
+  const deleteSkillsQueryStr = `
+    DELETE FROM projects_skills_join_table
+    WHERE project_id = $1
+  `;
+  const updateSkillsParams = [id];
+
+  //We need to construct another query string to add to our join table
+  // ! We have a varying amount of rows to enter into our join table.....
+  const multipleStringArr = [];
+  // each value of skills is the primary key to the skill in the skills table
+  for (const value of skills) {
+    multipleStringArr.push(`('${id}', '${value}')`);
+  }
+  // create a single string, getting rid of all the backticks
+  const multipleString = multipleStringArr.join(',').replaceAll('`', '');
+  const addSkillsQueryStr = `INSERT INTO projects_skills_join_table (project_id, skill_id) VALUES${multipleString}`;
+
+  db.query(deleteSkillsQueryStr, updateSkillsParams)
+    .then(() => {
+      db.query(addSkillsQueryStr)
+        .then(() => {
+          db.query(updatebasicInfoQueryStr, updateBasicInfoParams)
+            .then(data => {
+              return res.status(200).json(data.rows[0]);
+            })
+            .catch(err => {
+              return next({
+                log: `Error in projectController.updateIndividualProject: ${err.detail}`,
+                status: 400,
+                message: { err: err },
+              });
+            });
+        })
+        .catch((err) => {
+          return next({
+            log: 'Error in projectController.updateIndividualProject ${err.detail}',
+            status: 400,
+            message: { err: err },
+          });
+        });
+    })
+    .catch(err => {
+      return next({
+        log: `Error in projectController.updateIndividualProject: ${err.detail}`,
+        status: 400,
+        message: { err: err },
+      });
+    });
+};
+
 module.exports = projectController;

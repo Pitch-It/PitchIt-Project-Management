@@ -9,6 +9,7 @@ import Create from './pages/Create.jsx';
 import Favorites from './pages/Favorites.jsx';
 import SidebarLayout from './components/SidebarLayout.jsx';
 import SignUp from './pages/SignUp.jsx';
+import Edit from './pages/Edit.jsx';
 // Do we need to hang MainContainer from App or from Login?
 
 // ONLY USE ROUTES
@@ -40,6 +41,10 @@ const App = () => {
           <Route
             path="/create"
             element={<Create />}
+          ></Route>
+          <Route
+            path="/edit"
+            element={<Edit />}
           ></Route>
         </Route>
         <Route
