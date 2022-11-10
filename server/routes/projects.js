@@ -15,6 +15,10 @@ router.get('/skills', projectController.getSkills);
 
 router.get('/skill/:name', projectController.getIndividualSkill);
 
+router.post('/skill/new', projectController.addNewSkill);
+
+router.delete('/skill/remove/:name', projectController.removeSkill);
+
 router.patch('/individual/:id', projectController.updateIndividualProject);
 
 module.exports = router;

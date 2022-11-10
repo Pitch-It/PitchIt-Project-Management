@@ -6,7 +6,7 @@ import Home from './pages/Home.jsx';
 import MyProjects from './pages/MyProjects.jsx';
 import Error from './pages/Error.jsx';
 import Create from './pages/Create.jsx';
-import Favorites from './pages/Favorites.jsx';
+import Skills from './pages/Skills.jsx';
 import SidebarLayout from './components/SidebarLayout.jsx';
 import SignUp from './pages/SignUp.jsx';
 import Edit from './pages/Edit.jsx';
@@ -35,8 +35,8 @@ const App = () => {
             element={<MyProjects />}
           ></Route>
           <Route
-            path="/Favorites"
-            element={<Favorites />}
+            path="/Skills"
+            element={<Skills />}
           ></Route>
           <Route
             path="/create"
