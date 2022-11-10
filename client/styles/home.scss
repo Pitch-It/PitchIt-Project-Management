@@ -4,7 +4,7 @@ $brand-light-primary: #17d7fa;
 
 #homepage-div {
   margin-left: 110px;
-  width: 96.7%;
+  width: 91%;
   overflow-y: scroll;
   position: relative;
   height: 100vh;
@@ -46,8 +46,8 @@ $brand-light-primary: #17d7fa;
   grid-gap: 20px;
   justify-content: space-evenly;
   justify-items: center;
-  align-content: space-evenly;
-  align-items: flex-start;
+  align-content: stretch;
+  align-items: stretch;
 }
 
 .filter-button {

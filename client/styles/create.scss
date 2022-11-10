@@ -2,9 +2,11 @@ $brand-primary: #b6b7cb;
 $brand-light-primary: #17d7fa;
 
 .project-card-layout {
-  margin-left: 110px;
+  // margin-left: 110px;
+  position:relative;
+  left:110px;
+  overflow: scroll !important;
 }
-
 #create-header {
   margin-block: 0px;
   font-size: 60px;
@@ -27,9 +29,9 @@ $brand-light-primary: #17d7fa;
   font-weight: 300;
   color: #fff;
   display: block;
-  width: 100px;
-  height: 40px;
-  margin-left: 20px;
+  width: 200px;
+  height: 70px;
+  margin:30px auto;
   outline: none;
   cursor: pointer;
 }
@@ -41,9 +43,26 @@ $brand-light-primary: #17d7fa;
 }
 
 label {
-  margin-right: 5px;
+  margin-right: 10px;
 }
+.filters {
+  display: block;
+  margin: 10px 20px;
+  width:90%;
+  display: grid;
+  grid-template: auto / repeat(7, 1fr);
+  // display:flex;
+  // overflow: scroll;
+  padding:0px !important;
+}
+.filters button {
+  box-sizing: border-box !important;
+  min-width:75px;
+  height:50px;
+  margin-bottom: 15px;
+  cursor: pointer;
 
+}
 input {
   font-size: 22px;
   background-color: whitesmoke;
