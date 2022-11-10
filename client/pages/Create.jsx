@@ -78,22 +78,24 @@ const Create = () => {
       [inputId]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Populate inputData with required fields
     const filteredSkills = [];
 
-    //MAJOR BUG HERE!!!!!
     // We are going to push the index of the truthy skills into an array, which we will send in a request to our backend
-    console.log('SKILLSTATE', skillState);
     for (const skill in skillState) {
       // If we read a truthy value in our skillState object
-      if (skillState[skill])
-        // push the index to the filteredSkills array
-        // SQL indicies start at 1 so we should add 1 to each value
-        filteredSkills.push(Object.keys(skillsObj).indexOf(skill) + 1);
+      if (skillState[skill]){
+        //Send a get request which will fetch the ID the skill is assigned and push that into filtered skills
+        await axios.get(
+          `http://localhost:3000/projects/skill/${skill}`)
+          .then(response =>{
+            //Push the ID into filtered skills
+            filteredSkills.push(response.data.id);
+          });
+      }
     }
-    console.log(filteredSkills);
 
     const date = new Date();
     inputData.date = date.toDateString();

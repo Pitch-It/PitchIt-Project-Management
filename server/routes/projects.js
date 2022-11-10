@@ -13,4 +13,6 @@ router.delete('/:id', projectController.deleteProject);
 
 router.get('/skills', projectController.getSkills);
 
+router.get('/skill/:name', projectController.getIndividualSkill);
+
 module.exports = router;
