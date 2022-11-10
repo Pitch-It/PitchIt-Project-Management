@@ -46,22 +46,8 @@ const MyProjects = () => {
       alert('Couldn\'t fetch my projects');
     }
   };
-
   // This is a function used to delete projects
   const handleDelete = async (project_id) => {
-    // setRanOnce here so that useEffect fires
-    setRanOnce(false);
-    const deleteProject = await axios.delete(
-      `http://localhost:3000/projects/${project_id}`
-    );
-    setMyProjects((prevState) => {
-      console.log(prevState);
-      return prevState.filter((obj) => obj.project_id !== project_id);
-    });
-  };
-
-  // This is a function used to delete projects
-  const handleEdit = async (project_id) => {
     // setRanOnce here so that useEffect fires
     setRanOnce(false);
     const deleteProject = await axios.delete(

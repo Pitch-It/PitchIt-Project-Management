@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/project-cards.scss';
 /*
   Individual Project Card
@@ -14,6 +15,7 @@ const Project = ({
   handleDelete,
   handleEdit,
 }) => {
+  const navigate = useNavigate();
   return (
     <div
       id={`project-${project_id}`}
@@ -54,7 +56,12 @@ const Project = ({
         <button
           className="edit-button"
           onClick={() => {
-            handleEdit(project_id);
+            navigate('/edit', {state:{ 
+              project_id,
+              title,
+              description,
+              skills
+            }});
           }}
         >
           Edit

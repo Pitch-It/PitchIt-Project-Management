@@ -15,4 +15,6 @@ router.get('/skills', projectController.getSkills);
 
 router.get('/skill/:name', projectController.getIndividualSkill);
 
+router.patch('/individual/:id', projectController.updateIndividualProject);
+
 module.exports = router;
