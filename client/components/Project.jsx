@@ -20,6 +20,7 @@ const Project = ({
     <div
       id={`project-${project_id}`}
       className="project-card"
+      data-testid='project-test'
     >
       <div className="title">
         <b style={{ backgroundColor: 'inherit' }}>{title}</b>
