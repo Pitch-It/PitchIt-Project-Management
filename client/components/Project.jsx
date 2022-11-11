@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/project-cards.scss';
 /*
   Individual Project Card
@@ -12,11 +13,14 @@ const Project = ({
   skills,
   date,
   handleDelete,
+  handleEdit,
 }) => {
+  const navigate = useNavigate();
   return (
     <div
       id={`project-${project_id}`}
       className="project-card"
+      data-testid='project-test'
     >
       <div className="title">
         <b style={{ backgroundColor: 'inherit' }}>{title}</b>
@@ -46,6 +50,21 @@ const Project = ({
           }}
         >
           X
+        </button>
+      )}
+      {handleEdit && (
+        <button
+          className="edit-button"
+          onClick={() => {
+            navigate('/edit', {state:{ 
+              project_id,
+              title,
+              description,
+              skills
+            }});
+          }}
+        >
+          Edit
         </button>
       )}
     </div>

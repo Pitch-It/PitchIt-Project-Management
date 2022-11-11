@@ -2,20 +2,9 @@
 $brand-primary: #b6b7cb;
 $brand-light-primary: #17d7fa;
 
-// .filters {
-//   display: flex;
-//   margin-block: 10px;
-//   div {
-//     margin-inline: 10px;
-//   }
-//   button {
-//     border-radius: 8px;
-//   }
-// }
-
 #homepage-div {
   margin-left: 110px;
-  width: 96.7%;
+  width: 91%;
   overflow-y: scroll;
   position: relative;
   height: 100vh;
@@ -57,8 +46,8 @@ $brand-light-primary: #17d7fa;
   grid-gap: 20px;
   justify-content: space-evenly;
   justify-items: center;
-  align-content: space-evenly;
-  align-items: flex-start;
+  align-content: stretch;
+  align-items: stretch;
 }
 
 .filter-button {
@@ -81,10 +70,18 @@ $brand-light-primary: #17d7fa;
   margin-top: 10px;
   margin-inline: 1.8%;
 }
+
 .filters {
-  display: grid;
+  display: flex;
   justify-items: center;
   justify-content: space-evenly;
   align-items: center;
   align-content: space-evenly;
+  margin-block: 10px;
+  div {
+    margin-inline: 10px;
+  }
+  button {
+    border-radius: 8px;
+  }
 }

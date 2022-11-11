@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Checkbox from '../components/Checkbox.jsx';
 import '../styles/create.scss';
 
@@ -13,7 +13,9 @@ import '../styles/create.scss';
   Time stamp -> Date.now
 */
 
-const Create = () => {
+const Edit = () => {
+  const {project_id, title, description, skills} = useLocation().state;
+
   // this state hook will say which filters are active
   const [skillsObj, setSkillsObj] = useState({});
   const [skillState, setSkillState] = useState(skillsObj);
@@ -25,11 +27,16 @@ const Create = () => {
     )
       .then(response =>{
         //Give response.data a reasonable name
-        const skills = response.data;
+        const obtainedSkills = response.data;
         //Define skillsObj
         const skillObj = {};
         //Foreach loop to setup skillsObj
-        skills.forEach(skill => {skillObj[skill] = false;});
+        obtainedSkills.forEach(skill => {
+          if(skills.includes(skill))
+            skillObj[skill] = true;
+          else
+            skillObj[skill] = false;
+        });
         //Update State
         setSkillsObj(skillObj);
         setSkillState(skillObj);
@@ -63,8 +70,8 @@ const Create = () => {
     );
   }
   const defaultInput = {
-    project_name: '',
-    description: '',
+    project_name: title,
+    description: description,
   };
   const [inputData, setInputData] = useState(defaultInput);
   const [duplicate, setDuplicate] = useState(false);
@@ -78,6 +85,7 @@ const Create = () => {
       [inputId]: e.target.value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Populate inputData with required fields
@@ -96,9 +104,6 @@ const Create = () => {
           });
       }
     }
-
-    const date = new Date();
-    inputData.date = date.toDateString();
     inputData.owner_id = localStorage.getItem('user_id');
     inputData.owner_name = localStorage.getItem('username');
     inputData.skills = filteredSkills;
@@ -111,8 +116,8 @@ const Create = () => {
     // Send an asynchronous post request to our server
     (async function postProject() {
       try {
-        const postProjectStatus = await axios.post(
-          'http://localhost:3000/projects/',
+        const postProjectStatus = await axios.patch(
+          `http://localhost:3000/projects/individual/${project_id}`,
           inputData
         );
         if (postProjectStatus) {
@@ -127,6 +132,7 @@ const Create = () => {
       }
     })();
   };
+
   return (
     <div className="project-card-layout">
       <form
@@ -186,4 +192,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Edit;

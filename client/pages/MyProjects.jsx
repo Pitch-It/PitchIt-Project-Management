@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Project from '../components/Project.jsx';
 import '../styles/myprojects.scss';
 
@@ -17,11 +17,12 @@ const MyProjects = () => {
   // this is used to populate my projects
   const [myProjects, setMyProjects] = useState([]);
   const [ranOnce, setRanOnce] = useState(false);
+
   // Send a get request to the server on page load to pull in all my projects
   const getMyProjects = async () => {
     try {
       const myProjects = await axios.get(
-        `http://localhost:3000/projects/${localStorage.getItem('user_id')}`
+        `http://localhost:3000/projects/user/${localStorage.getItem('user_id')}`
       );
       setMyProjects(
         myProjects.data.map((obj) => {
@@ -35,13 +36,14 @@ const MyProjects = () => {
               skills={obj.skills}
               date={obj.date}
               handleDelete={handleDelete}
+              handleEdit={true}
             />
           );
         })
       );
       return;
     } catch (err) {
-      alert("Couldn't fetch my projects");
+      alert('Couldn\'t fetch my projects');
     }
   };
   // This is a function used to delete projects
@@ -56,13 +58,14 @@ const MyProjects = () => {
       return prevState.filter((obj) => obj.project_id !== project_id);
     });
   };
+
   useEffect(() => {
     if (!ranOnce) {
       getMyProjects();
       setRanOnce(true);
     }
   }, [myProjects]);
-  // if (myProjects.length === myProjects.length) return null;
+
   return (
     <div id="myprojects-div">
       <div className="myproject-header">My Pitches</div>

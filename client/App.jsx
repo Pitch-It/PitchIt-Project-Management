@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Routes, Route, Links } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import all of our routes
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx';
 import MyProjects from './pages/MyProjects.jsx';
 import Error from './pages/Error.jsx';
 import Create from './pages/Create.jsx';
-import Favorites from './pages/Favorites.jsx';
-import Sidebar from './components/Sidebar.jsx';
+import Skills from './pages/Skills.jsx';
 import SidebarLayout from './components/SidebarLayout.jsx';
 import SignUp from './pages/SignUp.jsx';
-import LoginTwo from './pages/LoginTwo.jsx';
+import Edit from './pages/Edit.jsx';
 // Do we need to hang MainContainer from App or from Login?
 
 // ONLY USE ROUTES
@@ -20,7 +19,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={<LoginTwo />}
+          element={<Login />}
         ></Route>
         <Route
           path="/signup"
@@ -36,12 +35,16 @@ const App = () => {
             element={<MyProjects />}
           ></Route>
           <Route
-            path="/Favorites"
-            element={<Favorites />}
+            path="/Skills"
+            element={<Skills />}
           ></Route>
           <Route
             path="/create"
             element={<Create />}
+          ></Route>
+          <Route
+            path="/edit"
+            element={<Edit />}
           ></Route>
         </Route>
         <Route
