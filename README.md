@@ -10,7 +10,7 @@ Connect with developers to find the best team to collaborate on projects
 
 
 ## About
-Introducing Pitch It, a fullstack web-app built using React, Express, and PostgreSQL. Pitch it allows users to create projects, pitch their ideas to other developers, and recruit other developers based on their skillset.  Here's Young to Demo 
+Introducing Pitch It, a fullstack web-app built using React, Express, and PostgreSQL. Pitch it allows users to create projects, pitch their ideas to other developers, and recruit other developers based on their skillset. We spent a ton of time working on creating a program that is modular and easy to improve on for future iterations/changes.
 
 
 ## Installing
@@ -23,17 +23,11 @@ npm start
 # To-Do
 Allow users to join teams
 
-Let users favorite projects and have them populate in the Favorites page
-
-Consolidate styling
-
-Give owners the ability to edit project information
-
-Implement OAuth and b-crypt to hash passwords
+Implement OAuth to hash passwords
 
 Use cookies and SSID
 
 Allow team members to chat and share code
 
 ## Contributing
-Rabea Ahmad, Young Kim, Hao Ze Lin, Drew Manley, Kevin Tseng
+Kelvin Van, Melanie Forbes, Jeffrey Lee, Stephan Chiorean, Rabea Ahmad, Young Kim, Hao Ze Lin, Drew Manley, Kevin Tseng
