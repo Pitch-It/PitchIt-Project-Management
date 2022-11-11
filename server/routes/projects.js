@@ -2,23 +2,22 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/projectController');
 
-// All requests here are coming in from /projects/...
-router.post('/', projectController.addProject);
-
+//Get requests
 router.get('/all', projectController.getAllProjects);
-
 router.get('/user/:id', projectController.getMyProject);
-
-router.delete('/:id', projectController.deleteProject);
-
 router.get('/skills', projectController.getSkills);
-
 router.get('/skill/:name', projectController.getIndividualSkill);
 
+//Post requests
 router.post('/skill/new', projectController.addNewSkill);
+router.post('/', projectController.addProject);
 
-router.delete('/skill/remove/:name', projectController.removeSkill);
-
+//Patch requests
 router.patch('/individual/:id', projectController.updateIndividualProject);
+
+//Delete requests
+router.delete('/skill/remove/:name', projectController.removeSkill);
+router.delete('/:id', projectController.deleteProject);
+
 
 module.exports = router;
