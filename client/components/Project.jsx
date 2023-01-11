@@ -20,7 +20,7 @@ const Project = ({
     <div
       id={`project-${project_id}`}
       className="project-card"
-      data-testid='project-test'
+      data-testid='project-on-myprojects-test'
     >
       <div className="title">
         <b style={{ backgroundColor: 'inherit' }}>{title}</b>
@@ -32,10 +32,10 @@ const Project = ({
       <div>
         <b style={{ backgroundColor: 'inherit' }}>Description:</b> {description}
       </div>
-      <div>
+      {/* <div>
         <b style={{ backgroundColor: 'inherit' }}>Skills needed:</b>{' '}
         {skills.join(', ')}
-      </div>
+      </div> */}
       <div>
         <b style={{ backgroundColor: 'inherit' }}>Date: </b>
         {date}
@@ -56,7 +56,7 @@ const Project = ({
         <button
           className="edit-button"
           onClick={() => {
-            navigate('/edit', {state:{ 
+            navigate('/edit', {state:{
               project_id,
               title,
               description,

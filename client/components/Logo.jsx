@@ -14,6 +14,7 @@ const Logo = () => {
         viewBox="0 0 122.699 122.699"
         xmlSpace="preserve"
         id='svgMain'
+        data-testid='logo-svg-test'
       >
         <circle cx="19.5" cy="12.2" r="12.1"></circle>
         <path d="M6 66.699h1.2v24c0 3.301 2.7 6 6 6h12.6c3.3 0 6-2.699 6-6V89.3c-1.1-2.101-1.8-4.5-1.8-7V50.9c0-6.1 3.7-11.4 9-13.7v-2.4c0-3.3-2.7-6-6-6H6c-3.3 0-6 2.7-6 6v25.9c0 3.3 2.6 5.999 6 5.999z"></path>

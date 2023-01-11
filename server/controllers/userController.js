@@ -8,8 +8,8 @@ const userController = {};
 
 userController.verifyUser = (req, res, next) => {
   const { username, password } = req.body;
-  console.log('userfirst', username);
-  console.log('passfirst', password);
+  //console.log('userfirst', username);
+  //console.log('passfirst', password);
   const queryStr = 'SELECT * FROM users WHERE users.username=$1';
   db.query(queryStr,[username])
     .then((data) => {
