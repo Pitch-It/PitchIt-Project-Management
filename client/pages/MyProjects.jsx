@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import Project from '../components/Project.jsx';
 import '../styles/myprojects.scss';
 
-/* 
+/*
   MyProjects needs:
   Header
   Sidebar
   Project cards -> only ones you have made
-  
+
 */
 // ! Do we want Login to be its own page?
 
@@ -37,6 +37,7 @@ const MyProjects = () => {
               date={obj.date}
               handleDelete={handleDelete}
               handleEdit={true}
+              data-testid={'project-on-myprojects-test'}
             />
           );
         })
@@ -73,8 +74,10 @@ const MyProjects = () => {
       <div className="myprojects-button-container">
         <Link to={'/create'}>
           <button
+            className='primary'
             id="create-project"
             type="button"
+            onClick={console.log('hi')}
           >
             Pitch a new project!
           </button>

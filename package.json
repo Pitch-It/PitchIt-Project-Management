@@ -22,12 +22,16 @@
   },
   "homepage": "hhttps://github.com/Pitch-It/PitchIt-Project-Management#readme",
   "jest": {
-    "globalSetup": "./__tests__/jest-setup.js",
-    "globalTeardown": "./__tests__/jest-teardown.js",
+    "globalSetup": "./jest-setup.js",
+    "globalTeardown": "./jest-teardown.js",
     "moduleFileExtensions": [
       "js",
       "jsx"
     ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
     "testEnvironment": "jest-environment-jsdom",
     "setupFilesAfterEnv": [
       "@testing-library/jest-dom/extend-expect"
@@ -39,6 +43,8 @@
     "@babel/preset-react": "^7.18.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "babel-jest": "^29.3.1",
     "babel-loader": "^9.1.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.27.0",
@@ -60,6 +66,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "identity-obj-proxy": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "modal": "^1.2.0",
     "nodemon": "^2.0.20",
